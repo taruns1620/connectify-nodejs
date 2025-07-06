@@ -1,0 +1,23 @@
+
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "esModuleInterop": true,    // Enable ES module interop
+    "skipLibCheck": true,       // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true // Ensure consistent file casing
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ],
+  "exclude": [
+     "node_modules",
+     "lib"
+  ]
+}
