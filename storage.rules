@@ -1,0 +1,40 @@
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Vendor registration files: only the user can write to their own folder.
+    match /vendorShopPhotos/{userId}/{allPaths=**} {
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if true; // Publicly readable
+    }
+    
+    match /vendorOfficePhotos/{userId}/{allPaths=**} {
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if true; // Publicly readable
+    }
+    
+    match /vendorFreelancerPhotos/{userId}/{allPaths=**} {
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if true; // Publicly readable
+    }
+    
+    match /vendorIdProofs/{userId}/{allPaths=**} {
+      // ID proofs are sensitive. Only the user can write and read.
+      // Admin access would require custom claims logic.
+      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId; 
+    }
+
+    // Cash receipts: only the vendor can upload. Admins should be able to read.
+    match /cashReceipts/{vendorId}/{allPaths=**} {
+      allow write: if request.auth != null && request.auth.uid == vendorId;
+      // This rule allows any authenticated user to read receipts.
+      // For admin-only access, you would use: allow read: if request.auth.token.admin == true;
+      allow read: if request.auth != null;
+    }
+
+    // Default deny all other paths for security.
+    // If no rule above matches, access is automatically denied.
+  }
+}

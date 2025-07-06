@@ -1,0 +1,73 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ],
+      "runtime": "nodejs18"
+    }
+  ],
+  "hosting": {
+    "public": ".next",
+    "ignore": [
+      "firebase.json",
+      "firestore.*",
+      "**/node_modules/**",
+      ".firebase/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": {
+          "name": "server",
+          "region": "us-central1"
+        }
+      }
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  },
+  "frameworks": {
+    "nextjs": {
+      "region": "us-central1",
+      "nodeVersion": 18,
+      "project": "connectify-hub-30-6hifm"
+    }
+  }
+}
